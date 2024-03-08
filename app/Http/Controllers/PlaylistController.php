@@ -12,7 +12,7 @@ class PlaylistController extends Controller
 {
     public function index()
     {
-        $playlists = Playlist::paginate(10);
+        $playlists = Playlist::with('contents')->paginate(20);
         return response()->json($playlists->items());
     }
 
@@ -38,7 +38,7 @@ class PlaylistController extends Controller
         }
 
         $playlist = Playlist::create($request->all());
-        return response()->json($playlist);
+        return redirect('/')->with('success', 'Playlist criada com sucesso!');
     }
 
     public function update(Request $request, $id)
@@ -52,6 +52,6 @@ class PlaylistController extends Controller
     {
         $playlist = Playlist::findOrFail($id);
         $playlist->delete();
-        return response()->json(['message' => 'Playlist deleted successfully']);
+        return redirect('/')->with('success', 'Playlist deletada com sucesso!');
     }
 }
