@@ -18,6 +18,6 @@ Route::delete('/playlists/{id}', [PlaylistController::class, 'destroy']);
 
 // Rotas para Conteúdos
 Route::get('/contents/{id}', [ContentController::class, 'show']);
-Route::post('/contents', [ContentController::class, 'store']);
+Route::post('/contents', [ContentController::class, 'store'])->withoutMiddleware(['web', 'csrf']);
 Route::put('/contents/{id}', [ContentController::class, 'update']);
 Route::delete('/contents/{id}', [ContentController::class, 'destroy']);
