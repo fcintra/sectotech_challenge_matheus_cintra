@@ -19,7 +19,7 @@ class PlaylistController extends Controller
     public function show($id)
     {
         $playlist = Playlist::with('contents')->findOrFail($id);
-        return response()->json($playlist);
+        return view('show', ['playlist.show' => $playlist]);
     }
 
     public function store(Request $request)

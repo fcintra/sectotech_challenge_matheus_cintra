@@ -50,6 +50,6 @@ class ContentController extends Controller
     {
         $content = Content::findOrFail($id);
         $content->delete();
-        return response()->json(['message' => 'Content deleted successfully']);
+        return redirect('/')->with('success', 'Content deletada com sucesso!');
     }
 }

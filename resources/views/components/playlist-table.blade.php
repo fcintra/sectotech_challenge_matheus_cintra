@@ -28,10 +28,18 @@
                                     @forelse ($playlist->contents as $content)
                                         <li class="mb-3">
                                             <div class="content-item">
-                                                <p class="mb-1"><strong>URL:</strong> <a href="{{ $content->url }}" target="_blank">{{ $content->url }}</a></p>
+                                                <p class="mb-1"><strong>Titulo:</strong> {{ $content->title }}</p>
                                                 <p class="mb-1"><strong>Autor:</strong> {{ $content->author }}</p>
+                                                <p class="mb-1"><strong>URL:</strong> <a href="{{ $content->url }}" target="_blank">{{ $content->url }}</a></p>
+
                                                 <p class="mb-1"><strong>Criado em:</strong> {{ $content->created_at->setTimezone('America/Sao_Paulo')->format('d/m/Y H:i:s') }}</p>
                                             </div>
+                                            <form action="{{ route('content.delete', $content->id) }}" method="POST" id="deleteForm{{$content->id}}">
+                                                @method('DELETE')
+                                                <button type="button" class="btn btn-danger" onclick="confirmContentDelete({{ $content->id }}, '{{ $content->title }}')">X</button>
+
+                                            </form>
+                                            <hr class="my-4">
                                         </li>
                                     @empty
                                     <li>
@@ -54,6 +62,10 @@
                                                 Adicionar Conteúdo
                                             </button>
                                     @endif
+
+                                    <button type="button" class="btn btn-primary" onclick="editPlaylist({{ $playlist->id }})">
+                                        Editar Playlist
+                                    </button>
 
                                 </div>
 
@@ -98,6 +110,10 @@
 
 <script>
 
+    function editPlaylist(playlistId) {
+        window.location.href = '/playlists/' + playlistId;
+    }
+
     function setPlaylistId(playlistId) {
         document.getElementById('playlistId').value = playlistId;
     }
@@ -131,6 +147,12 @@
     function confirmDelete(playlistId, playlistTitle) {
         if (confirm(`Tem certeza que deseja deletar a playlist "${playlistTitle}"?`)) {
             document.getElementById('deleteForm' + playlistId).submit();
+        }
+    }
+
+    function confirmContentDelete(contentId, contentTitle) {
+        if (confirm(`Tem certeza que deseja deletar o conteúdo "${contentTitle}"?`)) {
+            document.getElementById('deleteForm' + contentId).submit();
         }
     }
 </script>
