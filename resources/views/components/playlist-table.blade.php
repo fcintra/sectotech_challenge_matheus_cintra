@@ -1,4 +1,3 @@
-<!-- resources/views/components/playlist-table.blade.php -->
 
 @props(['playlists'])
 
@@ -15,7 +14,7 @@
                         <th>Nome</th>
                         <th>Descrição</th>
                         <th>Conteúdos</th>
-                        <th>Ações</th> <!-- Adicionado a coluna de ações -->
+                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,7 +35,7 @@
                                         </li>
                                     @empty
                                     <li>
-                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addContentModal">
+                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addContentModal" onclick="setPlaylistId({{ $playlist->id }})">
                                             Adicionar Conteúdo
                                         </button>
                                     </li>
@@ -46,7 +45,13 @@
                             <td>
                             <form action="{{ route('playlists.delete', $playlist->id) }}" method="POST" id="deleteForm{{$playlist->id}}">
                                 @method('DELETE')
-                                <button type="button" class="btn btn-danger" onclick="confirmDelete({{$playlist->id}})">Deletar</button>
+                                <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $playlist->id }}, '{{ $playlist->title }}')">Deletar</button>
+                                @var_dump($playlist->contents)
+                                @if (empty($playlist->contents))
+                                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addContentModal" onclick="setPlaylistId({{ $playlist->id }})">
+                                        Adicionar Conteúdo
+                                    </button>
+                                @endif
                             </form>
 
                             </td>
@@ -68,9 +73,63 @@
 @endisset
 
 
+<div class="modal fade" id="addContentModal" tabindex="-1" aria-labelledby="addContentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mr-4" id="addContentModalLabel">Adicionar Conteúdo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="content-form">
+                    @include('components.content-form')
+                    <hr class="my-4">
+                    <button type="button" class="btn btn-success ms-2" onclick="sendFormData()">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 <script>
-    function confirmDelete(playlistId) {
-        if (confirm('Tem certeza que deseja deletar?')) {
+
+    function setPlaylistId(playlistId) {
+        document.getElementById('playlistId').value = playlistId;
+    }
+
+    function sendFormData() {
+        const formData = new FormData(document.getElementById('addContentForm'));
+        const formDataObject = {};
+        formData.forEach((value, key) => {
+            formDataObject[key] = value;
+        });
+
+        const formDataArray = Object.entries(formDataObject).map(([key, value]) => ({ [key]: value }));
+
+        console.log(formDataArray)
+
+        $.ajax({
+            type: 'POST',
+            url: '{{ route("contents.store") }}',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                console.log(data);
+                $('#addContentModal').modal('hide');
+                location.reload()
+            },
+            error: function (error) {
+                console.error(error);
+            },
+        });
+    }
+
+
+    function confirmDelete(playlistId, playlistTitle) {
+        if (confirm(`Tem certeza que deseja deletar a playlist "${playlistTitle}"?`)) {
             document.getElementById('deleteForm' + playlistId).submit();
         }
     }

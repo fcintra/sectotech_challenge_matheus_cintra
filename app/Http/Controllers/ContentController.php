@@ -8,6 +8,13 @@ use Illuminate\Support\Facades\Validator;
 
 class ContentController extends Controller
 {
+
+    public function index()
+    {
+        $content = Content::all();
+        return response()->json($content);
+    }
+
     public function show($id)
     {
         $content = Content::findOrFail($id);
@@ -17,7 +24,6 @@ class ContentController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'contents' => 'required|array|min:1',
             'contents.*.playlist_id' => 'required|exists:playlists,id',
             'contents.*.title' => 'required|max:150',
             'contents.*.url' => 'required|max:255',
@@ -28,12 +34,7 @@ class ContentController extends Controller
             return response()->json(['error' => $validator->errors()], 400);
         }
 
-        $createdContents = [];
-
-        foreach ($request->contents as $contentData) {
-            $content = Content::create($contentData);
-            $createdContents[] = $content;
-        }
+        $content = Content::create($request->all());
 
         return response()->json(['data' => $createdContents], 201);
     }

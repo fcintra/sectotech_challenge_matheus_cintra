@@ -12,7 +12,7 @@ class PlaylistController extends Controller
 {
     public function index()
     {
-        $playlists = Playlist::with('contents')->paginate(20);
+        $playlists = Playlist::with('contents')->orderBy('created_at', 'desc')->paginate(20);
         return response()->json($playlists->items());
     }
 
