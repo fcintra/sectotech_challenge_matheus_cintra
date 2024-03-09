@@ -28,7 +28,7 @@
                                     @forelse ($playlist->contents as $content)
                                         <li class="mb-3">
                                             <div class="content-item">
-                                                <p class="mb-1"><strong>URL:</strong> <a href="{{ $content->url }}" target="_blank">{{ $content->title }}</a></p>
+                                                <p class="mb-1"><strong>URL:</strong> <a href="{{ $content->url }}" target="_blank">{{ $content->url }}</a></p>
                                                 <p class="mb-1"><strong>Autor:</strong> {{ $content->author }}</p>
                                                 <p class="mb-1"><strong>Criado em:</strong> {{ $content->created_at->setTimezone('America/Sao_Paulo')->format('d/m/Y H:i:s') }}</p>
                                             </div>
