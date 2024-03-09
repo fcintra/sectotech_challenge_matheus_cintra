@@ -43,15 +43,19 @@
                                 </ul>
                             </td>
                             <td>
-                            <form action="{{ route('playlists.delete', $playlist->id) }}" method="POST" id="deleteForm{{$playlist->id}}">
-                                @method('DELETE')
-                                <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $playlist->id }}, '{{ $playlist->title }}')">Deletar</button>
-                                @if (count($playlist->contents) > 0)
-                                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addContentModal" onclick="setPlaylistId({{ $playlist->id }})">
-                                        Adicionar Conteúdo
-                                    </button>
-                                @endif
-                            </form>
+                                <div class="d-flex">
+                                    <form action="{{ route('playlists.delete', $playlist->id) }}" method="POST" id="deleteForm{{$playlist->id}}">
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $playlist->id }}, '{{ $playlist->title }}')">Deletar</button>
+
+                                    </form>
+                                    @if (count($playlist->contents) > 0)
+                                            <button type="button" class="btn btn-success mx-2" data-bs-toggle="modal" data-bs-target="#addContentModal" onclick="setPlaylistId({{ $playlist->id }})">
+                                                Adicionar Conteúdo
+                                            </button>
+                                    @endif
+
+                                </div>
 
                             </td>
                         </tr>
