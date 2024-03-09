@@ -46,8 +46,7 @@
                             <form action="{{ route('playlists.delete', $playlist->id) }}" method="POST" id="deleteForm{{$playlist->id}}">
                                 @method('DELETE')
                                 <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $playlist->id }}, '{{ $playlist->title }}')">Deletar</button>
-                                @var_dump($playlist->contents)
-                                @if (empty($playlist->contents))
+                                @if (count($playlist->contents) > 0)
                                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addContentModal" onclick="setPlaylistId({{ $playlist->id }})">
                                         Adicionar Conteúdo
                                     </button>
@@ -106,9 +105,6 @@
             formDataObject[key] = value;
         });
 
-        const formDataArray = Object.entries(formDataObject).map(([key, value]) => ({ [key]: value }));
-
-        console.log(formDataArray)
 
         $.ajax({
             type: 'POST',
