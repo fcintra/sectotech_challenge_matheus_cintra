@@ -24,10 +24,10 @@ class ContentController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'contents.*.playlist_id' => 'required|exists:playlists,id',
-            'contents.*.title' => 'required|max:150',
-            'contents.*.url' => 'required|max:255',
-            'contents.*.author' => 'nullable|max:150',
+            'playlist_id' => 'required|exists:playlists,id',
+            'title' => 'required|max:150',
+            'url' => 'required|max:255',
+            'author' => 'nullable|max:150',
         ]);
 
         if ($validator->fails()) {
@@ -36,7 +36,7 @@ class ContentController extends Controller
 
         $content = Content::create($request->all());
 
-        return response()->json(['data' => $createdContents], 201);
+        return redirect('/')->with('success', 'Content criada com sucesso!');
     }
 
     public function update(Request $request, $id)
