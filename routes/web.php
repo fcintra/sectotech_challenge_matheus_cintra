@@ -12,9 +12,14 @@ use App\Http\Controllers\HomeController;
 
 // Rotas para Playlists
 Route::get('/playlists', [PlaylistController::class, 'index'])->withoutMiddleware(['web', 'csrf']);
-Route::get('/playlists/{id}', [PlaylistController::class, 'show'])->withoutMiddleware(['web', 'csrf'])->name('playlists.show');;
+Route::get('/playlist/{id}/edit', [PlaylistController::class, 'edit'])->withoutMiddleware(['web', 'csrf'])->name('editPlaylist');
+
+
+Route::get('/playlists/{id}', [PlaylistController::class, 'show'])->withoutMiddleware(['web', 'csrf']);
+
 Route::post('/playlists', [PlaylistController::class, 'store'])->withoutMiddleware(['web', 'csrf'])->name('playlists.store');
-Route::put('/playlists/{id}', [PlaylistController::class, 'update'])->withoutMiddleware(['web', 'csrf']);
+
+Route::put('/playlists/{id}', [PlaylistController::class, 'update'])->withoutMiddleware(['web', 'csrf'])->name('updatePlaylist');
 Route::delete('/playlists/{id}', [PlaylistController::class, 'destroy'])->withoutMiddleware(['web', 'csrf'])->name('playlists.delete');
 
 // Rotas para Conteúdos

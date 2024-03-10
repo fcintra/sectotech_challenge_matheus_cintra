@@ -63,7 +63,7 @@
                                             </button>
                                     @endif
 
-                                    <button type="button" class="btn btn-primary" onclick="editPlaylist({{ $playlist->id }})">
+                                    <button type="button" class="btn btn-primary mx-2" onclick="editPlaylist('{{ route("editPlaylist", $playlist->id) }}')">
                                         Editar Playlist
                                     </button>
 
@@ -110,8 +110,8 @@
 
 <script>
 
-    function editPlaylist(playlistId) {
-        window.location.href = '/playlists/' + playlistId;
+    function editPlaylist(editUrl) {
+        window.location.href = editUrl;
     }
 
     function setPlaylistId(playlistId) {
