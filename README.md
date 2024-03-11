@@ -25,7 +25,7 @@ DB_PASSWORD=secret
 Abra o terminal na raiz do seu projeto e execute o seguinte comando para iniciar os contêineres Docker:
 
 ```
-docker-compose up -d
+docker compose up -d
 
 ```
 
