@@ -14,46 +14,141 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <title>Edit Playlist - Secto-Teca</title>
+
+
+
 </head>
 <body>
 
 <div class="container">
-        <h2 class="mt-4 mb-4">Edit Playlist</h2>
-        <form action="{{ route('updatePlaylist', $playlist->id) }}" method="POST">
-            @method('PUT')
-
-            <!-- Playlist Details -->
-            <div class="mb-3">
-                <label for="title" class="form-label">Title:</label>
-                <input type="text" class="form-control" name="title" value="{{ $playlist->title }}" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="description" class="form-label">Description:</label>
-                <textarea class="form-control" name="description" required>{{ $playlist->description }}</textarea>
-            </div>
-
-            <!-- Contents -->
-            <h3>Playlist Contents</h3>
-            @foreach ($playlist->contents as $content)
-                <div class="mb-3">
-                    <label for="content_title" class="form-label">Content Title:</label>
-                    <input type="text" class="form-control" name="content_title[]" value="{{ $content->title }}" required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="content_url" class="form-label">Content URL:</label>
-                    <input type="text" class="form-control" name="content_url[]" value="{{ $content->url }}" required>
-                </div>
-
-
-                <hr class="mb-4">
-            @endforeach
-
-            <button type="submit" class="btn btn-primary">Update Playlist</button>
-        </form>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mt-4 mb-4">Editar Playlist</h2>
+        <a href="/" class="btn btn-primary">Voltar à Tela Inicial</a>
     </div>
+
+    <form id="form-playlist" action="{{ route('updatePlaylist', $playlist->id) }}" method="POST">
+        @method('PUT')
+
+        <!-- Playlist Details -->
+        <div class="mb-3">
+            <label for="title" class="form-label">Title:</label>
+            <input type="text" id="playlist-titulo" class="form-control" name="title" value="{{ $playlist->title }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="author" class="form-label">Autor:</label>
+            <input type="text" id="playlist-author" class="form-control" name="author" value="{{ $playlist->author }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="description" class="form-label">Description:</label>
+            <textarea id="playlist-description" class="form-control" name="description" required>{{ $playlist->description }}</textarea>
+        </div>
+
+        <button type="submit" id="btn-update-playlist" class="btn btn-success">Atualizar Playlist</button>
+
+    </form>
+
+    <h3 class="mt-4 mb-4">Editar Conteúdos</h3>
+    @foreach ($playlist->contents as $content)
+        <form id="form-{{ $content->id }}" class="content-form">
+            @method('PUT')
+            <!-- Contents -->
+            <div class="mb-3">
+                <label for="title" class="form-label">Conteúdo - Título:</label>
+                <input type="text" class="form-control content-input" name="title" value="{{ $content->title }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="url" class="form-label">Conteúdo - URL:</label>
+                <input type="text" class="form-control content-input" name="url" value="{{ $content->url }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="author" class="form-label">Conteúdo - Autor:</label>
+                <input type="text" class="form-control content-input" name="author" value="{{ $content->author }}" required>
+            </div>
+            <button type="button" class="btn btn-success" onclick="saveFormValues({{ $content->id }})">Atualizar Conteúdo</button>
+            <hr class="mb-4">
+        </form>
+    @endforeach
+</div>
+
 </body>
 </html>
 
 @endisset
+
+<script>
+    // Função autoinvocável para evitar poluição global
+    (function() {
+        // Objeto para armazenar os valores dos formulários
+        var formValues = {};
+
+        // Função para salvar os valores do formulário com base no ID
+      // Função para salvar os valores do formulário com base no ID
+window.saveFormValues = function(contentId) {
+    var formId = "form-" + contentId;
+    var formData = $("#" + formId).serializeArray();
+
+    // Iterar sobre os elementos do formulário e atualizar os valores nos atributos data-*
+    formData.forEach(function(input) {
+        var inputElement = $('[name="' + input.name + '"]', '#' + formId);
+        inputElement.data('original-value', inputElement.val()); // Armazenar o valor original
+        inputElement.data('new-value', input.value); // Armazenar o novo valor
+    });
+
+    // Exibir os valores salvos (pode ser removido em produção)
+    console.log("Valores salvos:", formData, "ID:", contentId);
+
+    // Chamada AJAX para enviar os valores ao servidor
+    $.ajax({
+        type: 'PUT',
+        url: '/contents/' + contentId,
+        data: formData,
+        success: function(response) {
+            alert('Conteúdo atualizado com sucesso!');
+        },
+        error: function(error) {
+            console.error(error);
+            // Adicione aqui qualquer lógica adicional em caso de erro
+            alert('Erro ao atualizar o conteúdo. Por favor, tente novamente.');
+        }
+    });
+};
+    })();
+</script>
+
+
+<script>
+    $(document).ready(function() {
+        // Evento de envio do formulário
+        $("#form-playlist").submit(function(e) {
+            e.preventDefault(); // Impede o envio padrão do formulário
+
+            // Serializa os dados do formulário
+            var formData = $(this).serialize();
+
+            // Envia a requisição AJAX para atualizar a playlist
+            $.ajax({
+                type: 'PUT',
+                url: '{{ route("updatePlaylist", $playlist->id) }}',
+                data: formData,
+                success: function(response) {
+                    console.log(response); // Exibe a resposta no console
+
+                    // Adicione aqui qualquer lógica adicional com a resposta
+                    // Por exemplo, atualizar a interface do usuário com os novos dados
+
+                    // Exibe uma mensagem de sucesso (pode ser removido em produção)
+                    alert('Playlist atualizada com sucesso!');
+                },
+                error: function(error) {
+                    console.error(error);
+
+                    // Adicione aqui qualquer lógica adicional em caso de erro
+                    // Exibe uma mensagem de erro (pode ser removido em produção)
+                    alert('Erro ao atualizar a playlist. Por favor, tente novamente.');
+                }
+            });
+        });
+    });
+</script>

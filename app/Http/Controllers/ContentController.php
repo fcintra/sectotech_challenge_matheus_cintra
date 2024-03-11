@@ -41,6 +41,7 @@ class ContentController extends Controller
 
     public function update(Request $request, $id)
     {
+
         $content = Content::findOrFail($id);
         $content->update($request->all());
         return response()->json($content);
