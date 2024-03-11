@@ -79,11 +79,8 @@
                 </tbody>
 
             </table>
-
             <nav aria-label="Page navigation">
-                <ul class="pagination justify-content-center"> <!-- Adicione a classe justify-content-center para centralizar os itens -->
-                    {{ $playlists->links() }}
-                </ul>
+                {{ $playlists->links('pagination', ['class' => 'pagination-sm']) }}
             </nav>
 
         </div>

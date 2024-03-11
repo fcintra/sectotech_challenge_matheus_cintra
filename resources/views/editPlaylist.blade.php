@@ -2,8 +2,6 @@
 
 @isset($playlist)
 
-   <!-- resources/views/editPlaylist.blade.php -->
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -86,7 +84,6 @@
         var formValues = {};
 
         // Função para salvar os valores do formulário com base no ID
-      // Função para salvar os valores do formulário com base no ID
 window.saveFormValues = function(contentId) {
     var formId = "form-" + contentId;
     var formData = $("#" + formId).serializeArray();
@@ -111,7 +108,6 @@ window.saveFormValues = function(contentId) {
         },
         error: function(error) {
             console.error(error);
-            // Adicione aqui qualquer lógica adicional em caso de erro
             alert('Erro ao atualizar o conteúdo. Por favor, tente novamente.');
         }
     });
@@ -135,19 +131,12 @@ window.saveFormValues = function(contentId) {
                 url: '{{ route("updatePlaylist", $playlist->id) }}',
                 data: formData,
                 success: function(response) {
-                    console.log(response); // Exibe a resposta no console
+                    console.log(response);
 
-                    // Adicione aqui qualquer lógica adicional com a resposta
-                    // Por exemplo, atualizar a interface do usuário com os novos dados
-
-                    // Exibe uma mensagem de sucesso (pode ser removido em produção)
                     alert('Playlist atualizada com sucesso!');
                 },
                 error: function(error) {
                     console.error(error);
-
-                    // Adicione aqui qualquer lógica adicional em caso de erro
-                    // Exibe uma mensagem de erro (pode ser removido em produção)
                     alert('Erro ao atualizar a playlist. Por favor, tente novamente.');
                 }
             });

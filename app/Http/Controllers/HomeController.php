@@ -9,7 +9,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $playlists = Playlist::paginate(10);
+        $playlists = Playlist::orderBy('created_at', 'desc')->paginate(10);
         return view('welcome', compact('playlists'));
     }
 }
