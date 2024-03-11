@@ -49,27 +49,29 @@
 
     </form>
 
-    <h3 class="mt-4 mb-4">Editar Conteúdos</h3>
-    @foreach ($playlist->contents as $content)
-        <form id="form-{{ $content->id }}" class="content-form">
-            @method('PUT')
-            <!-- Contents -->
-            <div class="mb-3">
-                <label for="title" class="form-label">Conteúdo - Título:</label>
-                <input type="text" class="form-control content-input" name="title" value="{{ $content->title }}" required>
-            </div>
-            <div class="mb-3">
-                <label for="url" class="form-label">Conteúdo - URL:</label>
-                <input type="text" class="form-control content-input" name="url" value="{{ $content->url }}" required>
-            </div>
-            <div class="mb-3">
-                <label for="author" class="form-label">Conteúdo - Autor:</label>
-                <input type="text" class="form-control content-input" name="author" value="{{ $content->author }}" required>
-            </div>
-            <button type="button" class="btn btn-success" onclick="saveFormValues({{ $content->id }})">Atualizar Conteúdo</button>
-            <hr class="mb-4">
-        </form>
-    @endforeach
+     @if(count($playlist->contents) > 0)
+        <h3 class="mt-4 mb-4">Editar Conteúdos</h3>
+        @foreach ($playlist->contents as $content)
+            <form id="form-{{ $content->id }}" class="content-form">
+                @method('PUT')
+                <!-- Contents -->
+                <div class="mb-3">
+                    <label for="title" class="form-label">Conteúdo - Título:</label>
+                    <input type="text" class="form-control content-input" name="title" value="{{ $content->title }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="url" class="form-label">Conteúdo - URL:</label>
+                    <input type="text" class="form-control content-input" name="url" value="{{ $content->url }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="author" class="form-label">Conteúdo - Autor:</label>
+                    <input type="text" class="form-control content-input" name="author" value="{{ $content->author }}" required>
+                </div>
+                <button type="button" class="btn btn-success" onclick="saveFormValues({{ $content->id }})">Atualizar Conteúdo</button>
+                <hr class="mb-4">
+            </form>
+        @endforeach
+    @endif
 </div>
 
 </body>
