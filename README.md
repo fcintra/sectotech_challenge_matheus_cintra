@@ -27,6 +27,7 @@ Abra o terminal na raiz do seu projeto e execute o seguinte comando para iniciar
 ```
 docker compose up -d
 ```
+Nota: Certifique-se de que a porta 5432 está livre. Caso esteja em uso, pare a aplicação que a utiliza, libere a porta e execute novamente o Docker Compose.
 
 3. Execute as Migrações
 Com os contêineres em execução, execute as migrações para criar o banco de dados:
