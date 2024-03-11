@@ -47,6 +47,8 @@
 
     </form>
 
+    <hr class="mb-4">
+
      @if(count($playlist->contents) > 0)
         <h3 class="mt-4 mb-4">Editar Conteúdos</h3>
         @foreach ($playlist->contents as $content)
