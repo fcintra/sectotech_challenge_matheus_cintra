@@ -24,7 +24,7 @@ DB_PASSWORD=secret
 
 2. Execute o Docker Compose
 
-Abra o terminal na raiz do seu projeto e execute o seguinte comando para iniciar os contêineres Docker:
+Abra o terminal na raiz do seu projeto e execute o seguinte comando para iniciar o contêiner Docker:
 
 ```
 docker compose up -d
