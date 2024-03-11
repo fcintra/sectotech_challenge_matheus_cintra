@@ -26,7 +26,6 @@ Abra o terminal na raiz do seu projeto e execute o seguinte comando para iniciar
 
 ```
 docker compose up -d
-
 ```
 
 3. Execute as Migrações
@@ -34,7 +33,6 @@ Com os contêineres em execução, execute as migrações para criar o banco de 
 
 ```
 php artisan migrate
-
 ```
 
 
@@ -43,7 +41,6 @@ Inicie o servidor de desenvolvimento Laravel com o seguinte comando:
 
 ```
 php artisan serve
-
 ```
 
 
