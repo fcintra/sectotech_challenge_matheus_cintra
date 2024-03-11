@@ -12,7 +12,7 @@ class PlaylistController extends Controller
 {
     public function index()
     {
-        $playlists = Playlist::with('contents')->orderBy('created_at', 'desc')->paginate(20);
+        $playlists = Playlist::with('contents')->orderBy('created_at', 'desc')->paginate(10);
         return response()->json($playlists->items());
     }
 
@@ -24,13 +24,14 @@ class PlaylistController extends Controller
 
     public function edit($id)
     {
-        $playlist = Playlist::with('contents')->findOrFail($id);
+        $playlist = Playlist::with('contents')->orderBy('id', 'desc')->findOrFail($id);
         return view('editPlaylist', compact('playlist'));
     }
 
     public function store(Request $request)
     {
 
+        //pegar apenas os campos necessários - refactor
         $validator = Validator::make($request->all(), [
             'title' => 'required|max:100',
             'description' => 'required|max:200',
@@ -40,7 +41,7 @@ class PlaylistController extends Controller
 
         // Verificar se a validação falhou
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 400);
+            return response()->json(['error' => $validator->errors()], 422);
         }
 
         $playlist = Playlist::create($request->all());
