@@ -10,6 +10,7 @@ Pré-requisitos
 Antes de começar, certifique-se de ter o Docker instalado em sua máquina.
 
 1. Configure o arquivo .env
+
 Crie um arquivo .env na raiz do seu projeto e configure as informações do banco de dados conforme o exemplo abaixo:
 
 ```env
@@ -22,6 +23,7 @@ DB_PASSWORD=secret
 ```
 
 2. Execute o Docker Compose
+
 Abra o terminal na raiz do seu projeto e execute o seguinte comando para iniciar os contêineres Docker:
 
 ```
@@ -30,7 +32,8 @@ docker compose up -d
 Nota: Certifique-se de que a porta 5432 está livre. Caso esteja em uso, pare a aplicação que a utiliza, libere a porta e execute novamente o Docker Compose.
 
 3. Execute as Migrações
-Com os contêineres em execução, execute as migrações para criar o banco de dados:
+
+Com o contêiner em execução, execute as migrações para criar o banco de dados:
 
 ```
 php artisan migrate
@@ -38,6 +41,7 @@ php artisan migrate
 
 
 4. Inicie o Servidor de Desenvolvimento
+
 Inicie o servidor de desenvolvimento Laravel com o seguinte comando:
 
 ```
