@@ -21,6 +21,7 @@ DB_DATABASE=laravel_db
 DB_USERNAME=postgres
 DB_PASSWORD=secret
 ```
+Nota: Coloquei o .env assim pois é para um banco de dados local apenas (isso não pode ocorrer com banco de dados em produção)
 
 2. Execute o Docker Compose
 
